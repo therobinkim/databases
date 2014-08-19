@@ -12,8 +12,6 @@ exports.postMessage = function(req, res) {
   // declare this variable so we can retain access to it throughout the entire promise chain.
   var message;
   var resultsCallback = function (results) {
-    console.log("request-handler (15): results is...");
-    console.log(results);
     var chat = {
       message: message.message,
       userid: results[0].userid,
