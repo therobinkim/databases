@@ -18,11 +18,16 @@ describe("Persistent Node Chat Server", function() {
     });
     dbConnection.connect();
 
-    var tablename = ""; // TODO: fill this out
+    var tablename = "messages"; // TODO: fill this out
+    var tablename2 = "users";
 
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
-    dbConnection.query("truncate " + tablename, done);
+    dbConnection.query("set foreign_key_checks = 0");
+    dbConnection.query("truncate " + tablename);
+    dbConnection.query("truncate " + tablename2, done);
+    dbConnection.query("set foreign_key_checks = 1");
+    // done();
   });
 
   afterEach(function() {
@@ -33,7 +38,7 @@ describe("Persistent Node Chat Server", function() {
     // Post a message to the node chat server:
     request({method: "POST",
              uri: "http://127.0.0.1:3000/classes/messages",
-             json: {username: "Valjean",
+             json: {username: 'Valjean',
                     message: "In mercy's name, three days is all I need.",
                     roomname: "Hello"}
             },
@@ -41,35 +46,45 @@ describe("Persistent Node Chat Server", function() {
               /* Now if we look in the database, we should find the
                * posted message there. */
 
-              var queryString = "";
+              var queryString = "SELECT message FROM messages";
               var queryArgs = [];
               /* TODO: Change the above queryString & queryArgs to match your schema design
                * The exact query string and query args to use
                * here depend on the schema you design, so I'll leave
                * them up to you. */
-              dbConnection.query( queryString, queryArgs,
+              console.log("LiveSpec.js (55)");
+              var query = dbConnection.query( queryString, // queryArgs,
                 function(err, results) {
+                  if(err) {
+                    console.log("LiveSpec.js (59): ERROR!");
+                    console.log(err);
+                  } else {
+                    console.log("LiveSpec.js (62): GOOD TO GO!");
+                    console.log(results);
+                  }
                   // Should have one result:
                   expect(results.length).to.equal(1);
-                  expect(results[0].text).to.equal("In mercy's name, three days is all I need.");
+                  expect(results[0].message).to.equal("In mercy's name, three days is all I need.");
                   /* TODO: You will need to change these tests if the
                    * column names in your schema are different from
                    * mine! */
 
                   done();
                 });
+              console.log("LiveSpec.js (74): query is...");
+              console.log(query);
             });
   });
 
   it("Should output all messages from the DB", function(done) {
     // Let's insert a message into the db
-    var queryString = "";
+    var queryString = "SELECT * FROM messages";
     var queryArgs = [];
     /* TODO - The exact query string and query args to use
      * here depend on the schema you design, so I'll leave
      * them up to you. */
 
-    dbConnection.query( queryString, queryArgs,
+    dbConnection.query( queryString, //queryArgs,
       function(err) {
         if (err) { throw err; }
         /* Now query the Node chat server and see if it returns

@@ -11,17 +11,17 @@ var findUser = db.findUser;
 exports.postMessage = function(req, res) {
   // declare this variable so we can retain access to it throughout the entire promise chain.
   var message;
-
   var resultsCallback = function (results) {
-      var chat = {
-        message: message.message,
-        userid: results[0].id,
-        roomname: message.roomname
-      };
-
-      saveMessage(chat.message, chat.userid, chat.roomname, function () {
-        serverHelpers.sendResponse(res, message);
-      });
+    console.log("request-handler (15): results is...");
+    console.log(results);
+    var chat = {
+      message: message.message,
+      userid: results[0].userid,
+      roomname: message.roomname
+    };
+    saveMessage(chat.message, chat.userid, chat.roomname, function () {
+      serverHelpers.sendResponse(res, message);
+    });
   };
 
   parseData(req, function(_, msg) {

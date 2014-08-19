@@ -3,19 +3,19 @@
 USE chat;
 
 CREATE TABLE users (
-  userId INT NOT NULL AUTO_INCREMENT,
+  userid INT NOT NULL AUTO_INCREMENT,
   username varchar(30),
-  PRIMARY KEY (userId)
+  PRIMARY KEY (userid)
 );
 
 CREATE TABLE messages (
-  objectId INT NOT NULL AUTO_INCREMENT,
+  objectid INT NOT NULL AUTO_INCREMENT,
   message varchar(100),
-  userId int(9),
+  userid int(9),
   roomname varchar(30),
   createdAt timestamp,
-  PRIMARY KEY  (objectId),
-  FOREIGN KEY (userId) REFERENCES users(userId)
+  PRIMARY KEY  (objectid),
+  FOREIGN KEY (userid) REFERENCES users(userid)
 );
 
 
