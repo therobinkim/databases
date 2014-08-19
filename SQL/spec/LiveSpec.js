@@ -82,7 +82,7 @@ describe("Persistent Node Chat Server", function() {
                                   message: "Men like you can never change!",
                                   roomname: "main"}
                           },
-                          
+
                       function () {
                         // Let's insert a message into the db
                         var queryString = "SELECT * FROM messages";
