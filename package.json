@@ -7,9 +7,10 @@
     "chai": "^1.9.1",
     "mocha": "^1.21.4",
     "mysql": "^2.4.2",
-    "request": "^2.40.0"
+    "request": "^2.40.0",
+    "sequelize": "^1.7.9"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -R dot SQL/spec/LiveSpec.js"
+    "test": "mocha -R dot SQL/spec/LiveSpec.js"
   }
 }
